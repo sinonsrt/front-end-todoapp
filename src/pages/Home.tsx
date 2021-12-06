@@ -1,4 +1,4 @@
-import { Text, Input, Button, Row, Column, List } from 'components';
+import { Text, Input, Button, Row, Column, List, Logo } from 'components';
 import { useState } from 'react';
 export const Home = () => {
   const [taskName, setTaskName] = useState('');
@@ -18,6 +18,17 @@ export const Home = () => {
   return (
     <>
       <Column width="600px" margin="0 auto" paddingLeft="10px">
+        <Column py="25px" alignItems="center" width="100%">
+          <Logo />
+        </Column>
+
+        <Column width="100%" minHeight="300px" bg="rgba(255, 255, 255, 0.2)" borderRadius="4px">
+          <Button variant="primary">
+            <Text color="primary" fontSize="bodyExtraLarge" fontWeight="bold">
+              START
+            </Text>
+          </Button>
+        </Column>
         <Text fontWeight="bold" fontSize="bodyLarge" my="10px">
           Tasks
         </Text>
