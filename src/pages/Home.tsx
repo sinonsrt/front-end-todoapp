@@ -22,7 +22,18 @@ export const Home = () => {
           <Logo />
         </Column>
 
-        <Column width="100%" minHeight="300px" bg="rgba(255, 255, 255, 0.2)" borderRadius="4px">
+        <Column
+          width="100%"
+          minHeight="300px"
+          p="20px"
+          bg="rgba(255, 255, 255, 0.2)"
+          borderRadius="4px"
+          alignItems="center"
+        >
+          <Text fontSize="bodyExtraLarge">Ready</Text>
+          <Text fontSize="displayExtraLarge" fontWeight="bold" py="30px">
+            25:00
+          </Text>
           <Button variant="primary">
             <Text color="primary" fontSize="bodyExtraLarge" fontWeight="bold">
               START
