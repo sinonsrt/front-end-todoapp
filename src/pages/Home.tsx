@@ -1,23 +1,16 @@
 import { Text, Input, Button, Row, Column, List, Logo, Icon } from 'components';
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTodo } from 'hooks/useTodo';
 
 const DEFAULT_SECONDS = 5;
 export const Home = () => {
+  const { tasks, getAll } = useTodo();
+
   const [taskName, setTaskName] = useState('');
-  const [tasks, setTasks] = useState<{ label: string }[]>([]);
   const [seconds, setSeconds] = useState(DEFAULT_SECONDS);
   const [timer, setTimer] = useState<any>();
   const [stage, setStage] = useState('ready');
-  const handleOKButton = () => {
-    if (!taskName) return;
-    setTasks((previous) => {
-      // previous - pass current value of tasks
-      const copy = [...previous];
-      copy.push({ label: taskName });
-      return copy;
-    });
-    setTaskName('');
-  };
+  const handleOKButton = () => {};
 
   const secondsToTime = (secs: number) => {
     const divisorMinute = secs % 3600;
@@ -136,6 +129,10 @@ export const Home = () => {
         );
     }
   }, [handlePauseButton, handleRestartButton, handleStopButton, stage]);
+
+  useEffect(() => {
+    getAll();
+  }, [getAll]);
 
   return (
     <>
