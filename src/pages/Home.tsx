@@ -1,7 +1,7 @@
 import { Text, Input, Button, Row, Column, List, Logo, Icon } from 'components';
 import { Fragment, useCallback, useMemo, useState } from 'react';
 
-const DEFAULT_SECONDS = 2;
+const DEFAULT_SECONDS = 5;
 export const Home = () => {
   const [taskName, setTaskName] = useState('');
   const [tasks, setTasks] = useState<{ label: string }[]>([]);
