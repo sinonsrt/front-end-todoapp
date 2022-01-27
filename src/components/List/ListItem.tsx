@@ -1,4 +1,4 @@
-import { Column, Text } from 'components';
+import { Column, Icon, Row, Text } from 'components';
 
 export type ListItemProps = {
   _id: string;
@@ -7,9 +7,12 @@ export type ListItemProps = {
   task: string;
   createdAt: Date;
   updatedAt: Date;
+  index: number;
+  isActive: boolean;
+  onClick: (index: number) => void;
 };
 
-export const ListItem: React.FC<ListItemProps> = ({ _id, task, is_done }) => {
+export const ListItem: React.FC<ListItemProps> = ({ index, _id, task, is_done, isActive, onClick }) => {
   return (
     <Column
       width="100%"
@@ -17,9 +20,16 @@ export const ListItem: React.FC<ListItemProps> = ({ _id, task, is_done }) => {
       padding="20px"
       mb="10px"
       borderRadius="4px"
-      borderLeft="5px solid #fff"
+      borderLeftWidth="5px"
+      borderLeftStyle="solid"
+      borderLeftColor={isActive ? '#fff' : 'transparent '}
+      onClick={() => onClick(index)}
+      cursor="pointer"
     >
-      <Text>{task}</Text>
+      <Row>
+        <Text flex={1}>{task}</Text>
+        {is_done === 1 && <Icon variant="white-done" />}
+      </Row>
     </Column>
   );
 };

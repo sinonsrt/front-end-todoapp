@@ -4,13 +4,21 @@ import { useTodo } from 'hooks/useTodo';
 
 const DEFAULT_SECONDS = 5;
 export const Home = () => {
-  const { tasks, getAll } = useTodo();
+  const { tasks, getAll, createTodo, updateTodo } = useTodo();
 
   const [taskName, setTaskName] = useState('');
   const [seconds, setSeconds] = useState(DEFAULT_SECONDS);
   const [timer, setTimer] = useState<any>();
   const [stage, setStage] = useState('ready');
-  const handleOKButton = () => {};
+  const [taskIndex, setTaskIndex] = useState(0);
+
+  const handleOKButton = useCallback(async () => {
+    await createTodo({ task: taskName, is_done: 0 });
+
+    await getAll();
+
+    setTaskName('');
+  }, [createTodo, getAll, taskName]);
 
   const secondsToTime = (secs: number) => {
     const divisorMinute = secs % 3600;
@@ -73,6 +81,15 @@ export const Home = () => {
     }
   }, [stage]);
 
+  const handleDoneButton = useCallback(async () => {
+    const task = tasks[taskIndex];
+
+    if (task) {
+      await updateTodo(task._id, { ...task, is_done: 1 });
+      await getAll();
+    }
+  }, [updateTodo, tasks, taskIndex, getAll]);
+
   const handleStageButtons = useMemo(() => {
     switch (stage) {
       case 'ready':
@@ -111,7 +128,7 @@ export const Home = () => {
                 <Icon variant="restart" />
               </Button>
 
-              <Button variant="primary" p="10px 20px" mx="5px">
+              <Button variant="primary" p="10px 20px" mx="5px" onClick={handleDoneButton}>
                 <Icon variant="done" />
               </Button>
             </Row>
@@ -128,7 +145,7 @@ export const Home = () => {
           </>
         );
     }
-  }, [handlePauseButton, handleRestartButton, handleStopButton, stage]);
+  }, [handlePauseButton, handleRestartButton, handleStopButton, handleDoneButton, stage]);
 
   useEffect(() => {
     getAll();
@@ -172,7 +189,7 @@ export const Home = () => {
           <Button onClick={handleOKButton}> OK </Button>
         </Row>
 
-        <List items={tasks} />
+        <List items={tasks} selectedIndex={taskIndex} onClick={setTaskIndex} />
       </Column>
     </>
   );
