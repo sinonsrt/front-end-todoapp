@@ -6,23 +6,34 @@ export const useTodo = () => {
   const [tasks, setTasks] = useState<ITodo[]>([]);
 
   const getAll = useCallback(async () => {
-    const { status, data } = await TodoService.getAll();
+    try {
+      const { status, data } = await TodoService.getAll();
 
-    if (status !== 200) throw new Error();
+      if (status !== 200) throw new Error();
 
-    setTasks(data);
+      setTasks(data);
+    } catch (error) {
+      return error;
+    }
   }, []);
 
   const createTodo = useCallback(async (todo: Pick<ITodo, 'task' | 'is_done'>) => {
-    const { status } = await TodoService.createTodo(todo).catch((error) => error);
+    try {
+      const { status } = await TodoService.createTodo(todo).catch((error) => error);
 
-    if (status !== 201) throw new Error();
+      if (status !== 201) throw new Error();
+    } catch (error) {
+      return error;
+    }
   }, []);
 
   const updateTodo = useCallback(async (_id: string, todo: Pick<ITodo, 'task' | 'is_done'>) => {
-    const { status } = await TodoService.updateTodo(_id, todo);
-
-    if (status !== 201) throw new Error();
+    try {
+      const { status } = await TodoService.updateTodo(_id, todo);
+      if (status !== 201) throw new Error();
+    } catch (error) {
+      return error;
+    }
   }, []);
 
   return {
